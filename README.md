@@ -6,7 +6,7 @@ This repository contains a frontend and backend for the DBMS project.
 
 Follow this exact flow when you want to contribute:
 
-1. Fork the repository
+1. **Fork the repository**
 
 Create your own copy of the project on GitHub by clicking the Fork button.
 
@@ -14,7 +14,7 @@ Why this matters:
 - You should not push directly to the original repository.
 - Your fork is your personal workspace for making and testing changes.
 
-2. Clone your fork
+2. **Clone your fork**
 
 Clone your fork to your local machine using the URL of your forked repo:
 
@@ -27,7 +27,7 @@ Why this matters:
 - Cloning downloads the full repository and history to your local system.
 - Running cd into the project ensures all next commands run in the correct folder.
 
-3. Create a new branch
+3. **Create a new branch**
 
 Create a branch before making any changes:
 
@@ -45,7 +45,7 @@ Why this matters:
 - Makes code review and pull requests focused and easy to understand.
 - Lets you work on multiple features independently.
 
-4. Add and commit your changes
+4. **Add and commit your changes**
 
 After editing files, check what changed:
 
@@ -70,7 +70,7 @@ Commit message tips:
 - Keep it specific.
 - One commit should represent one logical change.
 
-5. Push your branch to your fork
+5. **Push your branch to your fork**
 
 ```bash
 git push origin feature/<short-description>
@@ -79,7 +79,7 @@ git push origin feature/<short-description>
 Why this matters:
 - This uploads your local branch to GitHub so it can be reviewed.
 
-6. Create a Pull Request (PR)
+6. **Create a Pull Request (PR)**
 
 Open your fork on GitHub. You will usually see a prompt to Compare & pull request.
 
@@ -102,13 +102,13 @@ Run these steps immediately after cloning and creating a branch.
 
 ### Frontend Setup
 
-1. Go to the frontend directory:
+1. **Go to the frontend directory:**
 
 ```bash
 cd frontend
 ```
 
-2. Install dependencies:
+2. **Install dependencies:**
 
 ```bash
 npm i
@@ -120,25 +120,25 @@ What this does:
 
 ### Backend Setup
 
-1. Return to project root (if needed), then enter backend:
+1. **Return to project root (if needed), then enter backend:**
 
 ```bash
 cd backend
 ```
 
-2. Create a virtual environment named myenv:
+2. **Create a virtual environment named myenv:**
 
 ```bash
 python3 -m venv myenv
 ```
 
-3. Activate the virtual environment:
+3. **Activate the virtual environment:**
 
 ```bash
 source myenv/bin/activate
 ```
 
-4. Install dependencies from requirements.txt:
+4. **Install dependencies from requirements.txt:**
 
 ```bash
 pip install -r requirements.txt
