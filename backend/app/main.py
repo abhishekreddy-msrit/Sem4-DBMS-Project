@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routers import accounts, health, users
+from app.routers import accounts, health, transactions, users
 
 app = FastAPI(
     title="UPI Transaction System API",
@@ -11,3 +11,4 @@ app = FastAPI(
 app.include_router(health.router, tags=["health"])
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(accounts.router, prefix="/api/accounts", tags=["accounts"])
+app.include_router(transactions.router, prefix="/api/transactions", tags=["transactions"])

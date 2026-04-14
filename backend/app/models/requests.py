@@ -1,7 +1,7 @@
 import re
 from decimal import Decimal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class UserRegistrationRequest(BaseModel):
@@ -47,3 +47,23 @@ class AccountCreateRequest(BaseModel):
         if not re.fullmatch(r"^[a-z0-9._-]{2,}@[a-z]{2,}$", cleaned):
             raise ValueError("VPA format is invalid. Expected something like name@bank.")
         return cleaned
+
+
+class TransferRequest(BaseModel):
+    sender_vpa: str = Field(min_length=5, max_length=100)
+    receiver_vpa: str = Field(min_length=5, max_length=100)
+    amount: Decimal = Field(gt=Decimal("0.00"), max_digits=14, decimal_places=2)
+
+    @field_validator("sender_vpa", "receiver_vpa")
+    @classmethod
+    def validate_vpa(cls, value: str) -> str:
+        cleaned = value.strip().lower()
+        if not re.fullmatch(r"^[a-z0-9._-]{2,}@[a-z]{2,}$", cleaned):
+            raise ValueError("VPA format is invalid. Expected something like name@bank.")
+        return cleaned
+
+    @model_validator(mode="after")
+    def validate_parties_are_different(self) -> "TransferRequest":
+        if self.sender_vpa == self.receiver_vpa:
+            raise ValueError("Sender and receiver VPA must be different.")
+        return self

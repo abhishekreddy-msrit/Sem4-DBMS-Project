@@ -1,3 +1,4 @@
+import bcrypt
 import mysql.connector
 from mysql.connector import errorcode
 
@@ -9,14 +10,17 @@ from app.models.requests import UserRegistrationRequest
 
 
 def register_user(payload: UserRegistrationRequest) -> int:
-    hashed_password = hash_password(payload.password)
-    values = (payload.full_name, payload.email, payload.phone, hashed_password)
+    query = """
+    INSERT INTO users (mobile_number, password_hash)
+    VALUES (%s, %s)
+    """
+    hashed_password = bcrypt.hashpw(payload.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     try:
         with get_connection() as connection:
             cursor = connection.cursor(prepared=True)
             try:
-                cursor.execute(build_user_insert_sql(), values)
+                cursor.execute(query, (payload.phone, hashed_password))
                 connection.commit()
                 return cursor.lastrowid
             finally:

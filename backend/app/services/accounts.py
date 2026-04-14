@@ -8,14 +8,26 @@ from app.models.requests import AccountCreateRequest
 
 
 def create_account(payload: AccountCreateRequest) -> int:
-    values = (payload.user_id, payload.vpa, payload.initial_balance)
+    query = """
+    INSERT INTO accounts (user_id, vpa, balance, status)
+    VALUES (%s, %s, %s, %s)
+    """
+    user_id = payload.user_id
+    vpa = payload.vpa
+    balance = payload.initial_balance
+    status = "Active"
     check_constraint_errno = getattr(errorcode, "ER_CHECK_CONSTRAINT_VIOLATED", 3819)
 
     try:
         with get_connection() as connection:
             cursor = connection.cursor(prepared=True)
             try:
-                cursor.execute(build_account_insert_sql(), values)
+                cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user_id,))
+                user = cursor.fetchone()
+                if not user:
+                    raise ServiceError(status_code=404, detail="User does not exist for the provided user_id.")
+
+                cursor.execute(query, (user_id, vpa, balance, status))
                 connection.commit()
                 return cursor.lastrowid
             finally:
