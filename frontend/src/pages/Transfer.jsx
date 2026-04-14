@@ -87,12 +87,17 @@ const Transfer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-4 relative overflow-hidden">
+      {/* Simple decorative elements */}
+      <div className="absolute top-10 left-10 w-2 h-2 bg-blue-300 rounded-full opacity-40"></div>
+      <div className="absolute top-20 right-20 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-30"></div>
+      <div className="absolute bottom-20 left-20 w-2 h-2 bg-blue-300 rounded-full opacity-25"></div>
+      <div className="absolute bottom-10 right-16 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-35"></div>
       <div className="max-w-md mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Send Money</h1>
           <Link to="/dashboard" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-            Back to Home
+            ← Back to Home
           </Link>
         </div>
 

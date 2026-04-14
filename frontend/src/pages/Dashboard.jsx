@@ -84,8 +84,14 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-md mx-auto p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center relative overflow-hidden">
+      {/* Simple decorative elements */}
+      <div className="absolute top-10 left-10 w-2 h-2 bg-blue-300 rounded-full opacity-40"></div>
+      <div className="absolute top-20 right-20 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-30"></div>
+      <div className="absolute bottom-20 left-20 w-2 h-2 bg-blue-300 rounded-full opacity-25"></div>
+      <div className="absolute bottom-10 right-16 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-35"></div>
+
+      <div className="max-w-md w-full p-4 relative z-10">
         {/* Top Navigation */}
         <div className="bg-white rounded-lg p-2 shadow mb-4 mt-2">
           <div className="grid grid-cols-2 gap-2">
@@ -115,30 +121,34 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
               Hello, {user?.firstName}
             </h1>
-            <p className="text-gray-600 text-sm">Welcome back</p>
+            <p className="text-gray-600 text-sm mt-1">Welcome back to your account</p>
           </div>
-          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center text-white font-semibold shadow-lg">
             {user?.firstName?.[0] || 'U'}
           </div>
         </div>
 
-        {/* Balance Card - Placeholder */}
-        <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-lg p-6 mb-6 shadow-lg">
-          <p className="text-sm opacity-90">Balance</p>
-          <h2 className="text-4xl font-bold mt-2">₹ ****</h2>
+        {/* Balance Card */}
+        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white rounded-2xl p-6 mb-6 shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] transition-all duration-300">
+          <div className="flex justify-between items-start mb-12">
+            <div>
+              <p className="text-sm opacity-80 font-medium">Available Balance</p>
+              <h2 className="text-5xl font-bold mt-3">₹ ****</h2>
+            </div>
+          </div>
 
           {accounts.length > 1 ? (
-            <div className="mt-4">
-              <label className="block text-xs uppercase tracking-wide opacity-80 mb-1">
+            <div className="mt-6">
+              <label className="block text-xs uppercase tracking-wide opacity-70 mb-2 font-semibold">
                 Select Account
               </label>
               <select
                 value={activeAccountId}
                 onChange={handleAccountChange}
-                className="w-full bg-blue-700 border border-blue-400 rounded-md px-3 py-2 text-sm text-white focus:outline-none"
+                className="w-full bg-blue-700/50 border border-blue-400/30 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
               >
                 {accounts.map((account, index) => (
                   <option key={account.id || account.vpa || index} value={account.id || account.vpa}>
@@ -148,56 +158,62 @@ const Dashboard = () => {
               </select>
             </div>
           ) : (
-            <p className="text-sm mt-4 opacity-75">{activeAccount?.vpa || 'No VPA found'}</p>
+            <div className="flex items-center justify-between bg-blue-700/30 rounded-lg px-4 py-3 border border-blue-400/20">
+              <span className="text-xs uppercase tracking-wide opacity-70 font-semibold">VPA</span>
+              <span className="font-semibold">{activeAccount?.vpa || 'No VPA found'}</span>
+            </div>
           )}
 
           {accounts.length > 1 && (
-            <p className="text-sm mt-3 opacity-75">Active VPA: {activeAccount?.vpa || 'N/A'}</p>
+            <p className="text-xs mt-3 opacity-70 font-medium">Active: {activeAccount?.vpa || 'N/A'}</p>
           )}
         </div>
 
-        {/* Quick Action */}
+        {/* Quick Actions */}
         <div className="mb-6">
-          <Link to="/transfer" className="block bg-white p-4 rounded-lg shadow text-center hover:shadow-md transition">
-            <div className="text-2xl mb-2">📤</div>
-            <p className="text-sm font-medium">Send Money</p>
+          <Link
+            to="/transfer"
+            className="block bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300 text-center group"
+          >
+            <p className="text-sm font-semibold text-gray-800">Send Money</p>
+            <p className="text-xs text-gray-500 mt-1">Transfer funds instantly</p>
           </Link>
         </div>
 
         {/* Create Accounts */}
-        <div className="bg-white rounded-lg p-4 shadow mb-6">
-          <h3 className="font-semibold text-gray-800 mb-3">Create New Account</h3>
+        <div className="bg-white rounded-2xl p-5 shadow-lg mb-6">
+          <h3 className="font-bold text-gray-800 mb-4 text-lg">Create New Account</h3>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => createAccount('personal')}
               disabled={creatingAccount}
-              className="px-3 py-2 rounded-md border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60"
+              className="px-3 py-3 rounded-lg border-2 border-blue-200 text-sm font-semibold text-blue-600 hover:bg-blue-50 disabled:opacity-50 transition-all duration-300"
             >
-              {creatingType === 'personal' && creatingAccount ? 'Creating...' : 'New Personal VPA'}
+              {creatingType === 'personal' && creatingAccount ? 'Creating...' : 'Personal'}
             </button>
             <button
               type="button"
               onClick={() => createAccount('business')}
               disabled={creatingAccount}
-              className="px-3 py-2 rounded-md bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60"
+              className="px-3 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-sm font-semibold text-white hover:shadow-lg disabled:opacity-50 transition-all duration-300"
             >
-              {creatingType === 'business' && creatingAccount ? 'Creating...' : 'New Business VPA'}
+              {creatingType === 'business' && creatingAccount ? 'Creating...' : 'Business'}
             </button>
           </div>
           {accountError && (
-            <p className="text-sm text-red-600 mt-3">{accountError}</p>
+            <p className="text-sm text-red-600 mt-3 px-3 py-2 bg-red-50 rounded-lg">{accountError}</p>
           )}
           {accountSuccess && (
-            <p className="text-sm text-green-600 mt-3">{accountSuccess}</p>
+            <p className="text-sm text-green-600 mt-3 px-3 py-2 bg-green-50 rounded-lg">{accountSuccess}</p>
           )}
         </div>
 
-        {/* Recent Activity - Placeholder */}
-        <div className="bg-white rounded-lg p-4 shadow">
-          <h3 className="font-semibold text-gray-800 mb-4">Recent Activity</h3>
+        {/* Recent Activity */}
+        <div className="bg-white rounded-2xl p-5 shadow-lg">
+          <h3 className="font-bold text-gray-800 mb-4 text-lg">Recent Activity</h3>
           <div className="space-y-3">
-            <p className="text-gray-500 text-sm text-center py-4">No recent transactions</p>
+            <p className="text-gray-500 text-sm text-center py-8">No recent transactions</p>
           </div>
         </div>
       </div>
