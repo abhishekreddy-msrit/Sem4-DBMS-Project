@@ -1,56 +1,45 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Breadcrumb from '../components/Breadcrumb';
 
 const History = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Simple decorative elements */}
-      <div className="absolute top-10 left-10 w-2 h-2 bg-blue-300 rounded-full opacity-40"></div>
-      <div className="absolute top-20 right-20 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-30"></div>
-      <div className="absolute bottom-20 left-20 w-2 h-2 bg-blue-300 rounded-full opacity-25"></div>
-      <div className="absolute bottom-10 right-16 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-35"></div>
+    <div className="app-shell">
+      <div className="page-enter mx-auto w-full max-w-4xl">
+        <Breadcrumb
+          items={[
+            { label: 'Dashboard', href: '/dashboard' },
+            { label: 'History' },
+          ]}
+        />
 
-      <div className="max-w-md w-full relative z-10">
-        {/* Header with Back Button */}
-        <div className="flex items-center gap-3 mb-6">
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="px-4 py-2.5 bg-white border-2 border-blue-200 rounded-lg text-blue-600 font-semibold hover:bg-blue-50 transform hover:scale-105 transition-all duration-300 shadow-md"
-          >
-            ← Back
-          </button>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-            History
-          </h1>
-        </div>
-        
-        {/* Filter Bar */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-          <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-full text-sm font-semibold whitespace-nowrap shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
-            All
-          </button>
-          <button className="px-4 py-2 bg-white border-2 border-gray-200 text-gray-700 rounded-full text-sm font-semibold whitespace-nowrap hover:bg-gray-50 transition-all">
-            Sent
-          </button>
-          <button className="px-4 py-2 bg-white border-2 border-gray-200 text-gray-700 rounded-full text-sm font-semibold whitespace-nowrap hover:bg-gray-50 transition-all">
-            Received
-          </button>
-          <button className="px-4 py-2 bg-white border-2 border-gray-200 text-gray-700 rounded-full text-sm font-semibold whitespace-nowrap hover:bg-gray-50 transition-all">
-            Failed
-          </button>
-        </div>
-
-        {/* History List */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="p-12 text-center">
-            <p className="text-gray-700 font-semibold text-lg">No Transactions Yet</p>
-            <p className="text-gray-500 text-sm mt-2">Your transaction history will appear here</p>
-            <button className="mt-6 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-              Send Money Now
-            </button>
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <h1 className="ui-title text-3xl">Transaction History</h1>
+            <p className="ui-subtle mt-1 text-sm">Recent payment activity will be shown here.</p>
           </div>
+          <button onClick={() => navigate('/dashboard')} className="btn-soft px-4 py-2 text-sm">
+            Back
+          </button>
+        </div>
+
+        <div className="ui-panel mb-4 p-4">
+          <div className="flex flex-wrap gap-2">
+            <button className="rounded-full bg-cyan-700 px-4 py-1.5 text-sm font-semibold text-white">All</button>
+            <button className="btn-soft rounded-full px-4 py-1.5 text-sm">Sent</button>
+            <button className="btn-soft rounded-full px-4 py-1.5 text-sm">Received</button>
+            <button className="btn-soft rounded-full px-4 py-1.5 text-sm">Failed</button>
+          </div>
+        </div>
+
+        <div className="ui-panel p-10 text-center">
+          <p className="text-lg font-semibold text-slate-800">No Transactions Yet</p>
+          <p className="mt-1 text-sm text-slate-500">Your transaction history will appear once you start sending or receiving money.</p>
+          <Link to="/transfer" className="btn-brand mt-6 inline-flex px-6 py-2.5 text-sm">
+            Send Money Now
+          </Link>
         </div>
       </div>
     </div>
