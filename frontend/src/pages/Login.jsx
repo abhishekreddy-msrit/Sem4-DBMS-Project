@@ -9,7 +9,7 @@ const Login = () => {
   const { login } = useUser();
   const { showError, showSuccess } = useToast();
   const [formData, setFormData] = useState({
-    vpa: '',
+    mobileNumber: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
@@ -17,21 +17,28 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const sanitizedValue = name === 'mobileNumber' ? value.replace(/\D/g, '').slice(0, 10) : value;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: sanitizedValue,
     }));
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (!/^\d{10}$/.test(formData.mobileNumber)) {
+      showError('Mobile number must be 10 digits');
+      return;
+    }
+
     setLoading(true);
 
     try {
       const data = await requestJson('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify({
-          identifier: formData.vpa,
+          identifier: formData.mobileNumber,
           password: formData.password,
         }),
       });
@@ -48,8 +55,8 @@ const Login = () => {
       
       login({
         id: data.user_id,
-        displayName: data.mobile_number || formData.vpa,
-        mobileNumber: data.mobile_number || formData.vpa,
+        displayName: data.mobile_number || formData.mobileNumber,
+        mobileNumber: data.mobile_number || formData.mobileNumber,
         accounts,
         activeAccountId: data.active_account_id || accounts[0]?.id || null,
       }, 'user');
@@ -70,24 +77,30 @@ const Login = () => {
           <div className="mb-7">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700">Welcome back</p>
             <h2 className="ui-title mt-2 text-3xl">Sign in</h2>
-            <p className="ui-subtle mt-2 text-sm">Use your VPA or mobile number to continue.</p>
+            <p className="ui-subtle mt-2 text-sm">Use your mobile number to continue.</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="vpa" className="mb-1.5 block text-sm font-semibold text-slate-700">
-                VPA or Mobile Number
+              <label htmlFor="mobileNumber" className="mb-1.5 block text-sm font-semibold text-slate-700">
+                Mobile Number
               </label>
-              <input
-                type="text"
-                id="vpa"
-                name="vpa"
-                value={formData.vpa}
-                onChange={handleChange}
-                placeholder="9876543210@upi"
-                className="ui-input"
-                required
-              />
+              <div className="ui-dial-input">
+                <span className="ui-dial-prefix">+91</span>
+                <input
+                  type="tel"
+                  id="mobileNumber"
+                  name="mobileNumber"
+                  value={formData.mobileNumber}
+                  onChange={handleChange}
+                  placeholder="10-digit mobile number"
+                  inputMode="numeric"
+                  pattern="[0-9]{10}"
+                  maxLength="10"
+                  className="ui-dial-field"
+                  required
+                />
+              </div>
             </div>
 
             <div>

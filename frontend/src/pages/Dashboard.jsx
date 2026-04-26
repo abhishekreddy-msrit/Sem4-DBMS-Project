@@ -191,9 +191,6 @@ const Dashboard = () => {
             <p className="ui-subtle text-sm">Manage accounts, transfer funds, and track balances.</p>
           </div>
           <div className="flex items-center gap-2">
-            <div className="grid h-11 w-11 place-items-center rounded-full bg-cyan-700 text-sm font-bold text-white">
-              {(user?.mobileNumber || 'U')[0]}
-            </div>
             <button onClick={handleLogout} className="rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700">
               Logout
             </button>
